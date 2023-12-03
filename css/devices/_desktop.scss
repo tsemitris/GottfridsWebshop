@@ -352,7 +352,7 @@ body {
                 @include gridCreation(column, 10, 1fr, 0);
                 grid-column: span 10;
                 background-color: var(--secondary-color);
-                min-height: 415px;
+                height: 415px;
                 margin: 41px 0 0 0;
                 overflow: hidden;
                 position: relative; 
@@ -527,13 +527,13 @@ body {
                                         }
     
                                         .minus_button_icon {
-                                            mask-image: url('../../assets/icons/minus_icon.svg');
+                                            mask-image: url('../assets/icons/minus_icon.svg');
                                         }
                                         .plus_button_icon {
-                                            mask-image: url('../../assets/icons/add_icon.svg');
+                                            mask-image: url('../assets/icons/add_icon.svg');
                                         }
                                         .add_to_cart_button_icon {
-                                            mask-image: url('../../assets/icons/add_to_cart.svg');
+                                            mask-image: url('../assets/icons/add_to_cart.svg');
                                         }
                                     }
     
