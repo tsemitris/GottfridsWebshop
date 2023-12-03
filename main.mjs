@@ -187,7 +187,7 @@ for(let i = 0; i < categoriesObject.length; i++) {
     else {
         categoriesContainer.innerHTML += `
             <div class="categories_content_container">
-                <img class="categories_image_left"src="${categoriesObject[i].mainPicture[0].imageUrl}" alt="${categoriesObject[i].mainPicture[0].alt} width="100" height="100"">
+                <img class="categories_image_left"src="${categoriesObject[i].mainPicture[0].imageUrl}" alt="${categoriesObject[i].mainPicture[0].alt} width="100" height="100">
                 <div class="categories_right_side_container" id="${categoryName}_SideContainer"></div>
             </div>
         `;
