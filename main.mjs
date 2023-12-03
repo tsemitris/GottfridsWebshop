@@ -291,25 +291,23 @@ function nextProductImage(e) {
     if(buttonId.toLowerCase().includes('donut')) {
         let productDonutId = document.querySelector(`#innerDonutProductImageContainer${buttonNumberId}`);
         let donutProductCurrentImageNumberId = productsObject.donuts[buttonNumberId].imagePosition;
+        let imagesLenght = productsObject.donuts[buttonNumberId].images.length;
 
-        // FIXME: Fix this
-        if(donutProductCurrentImageNumberId < productsObject.donuts[buttonNumberId].images.length) {
-            console.log('hehe', donutProductCurrentImageNumberId, productsObject.donuts[buttonNumberId].images.length);
+        if(donutProductCurrentImageNumberId < imagesLenght) {
             productDonutId.style.transform = `
-                translateX(-${1 * 100}%)
-           `;
-           donutProductCurrentImageNumberId++;
-           console.log('hehe', donutProductCurrentImageNumberId, productsObject.donuts[buttonNumberId].images.length);
+                translateX(-${donutProductCurrentImageNumberId * 100}%)
+            `;
+            productsObject.donuts[buttonNumberId].imagePosition++;
         }
         else {
             productDonutId.style.transform = `
                 translateX(${0}%)
            `;
-            donutProductCurrentImageNumberId = 0;
-            console.log('hoho');
+           productsObject.donuts[buttonNumberId].imagePosition = 1;
         }
     }
 }
+
 function previousProductImage(e) {
     let buttonId = e.target.id;
     let buttonNumberId = Number((buttonId).replace(/\D/g, ""));
@@ -318,13 +316,20 @@ function previousProductImage(e) {
     if(buttonId.toLowerCase().includes('donut')) {
         let productDonutId = document.querySelector(`#innerDonutProductImageContainer${buttonNumberId}`);
         let donutProductCurrentImageNumberId = productsObject.donuts[buttonNumberId].imagePosition;
+        let imagesLenght = productsObject.donuts[buttonNumberId].images.length;
+        
+        if(donutProductCurrentImageNumberId == 1) {
+            productDonutId.style.transform = `
+                translateX(-${(imagesLenght - 1) * 100}%)
+            `;
 
-        // if(donutProductCurrentImageNumberId ==)
-        if(donutProductCurrentImageNumberId < productsObject.donuts[buttonNumberId].images.length) {
-           productDonutId.style.transform = `
-                translateX(${1 * 100}%)
-           `;
-           donutProductCurrentImageNumberId++;
+            productsObject.donuts[buttonNumberId].imagePosition = imagesLenght;
+        }
+        else if(donutProductCurrentImageNumberId > 0 && donutProductCurrentImageNumberId <= imagesLenght) {
+            productDonutId.style.transform = `
+                translateX(-${(donutProductCurrentImageNumberId - 2) * 100}%)
+            `;
+            productsObject.donuts[buttonNumberId].imagePosition--;
         }
     }
 }
