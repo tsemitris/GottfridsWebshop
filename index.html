@@ -21,9 +21,9 @@
     <link rel="stylesheet" href="css/index.css" type="text/css">
 </head>
 <body>
-    <header id="header">
+    <header class="menu_header" id="header">
         <div class="header_content">
-            <!-- Logo / TODO: Search bar? / Cart / Language / Theme -->
+            <!-- Logo / Cart / Language / Theme -->
             <div class="gottfrids_logo">
                 <img src="assets/logo/Gottfrids_logo_light.png" width="84" height="71" alt="">
             </div>
@@ -44,7 +44,6 @@
         </nav>
     </header>
     
-
     <main>
         <!-- Categories with pictures in the right side -->
         <section class="categories_with_image_container">
@@ -63,17 +62,249 @@
             </div>
         </section>
 
-        <!-- Image and products in the right side -->
-
+        <!-- Products -->
         <section class="categories_container" id="categoriesContainer">
             <!-- Categories -->
         </section>
 
         <!-- About us -->
+        <section class="about_us_container">
+            <div class="about_us_image_container"></div>
+            <div class="about_us_text_container" id="aboutUsTextContainer">
+                <div class="about_us_title_container">
+                    <p class="about_us_title">About us</p>
+                    <button class="about_us_button" id="expandAboutUsButton">Read more</button>
+                </div>
+                
+                <p class="about_us_text">
+                    Welcome to Gottfrids Munkfabrik, a beloved donut company rooted in Sweden for many years. Our passion lies in handcrafting irresistible, flavorful donuts using time-honored recipes infused with a touch of Swedish tradition.<br><br>
+
+                    At Gottfrids Munkfabrik, we blend the finest ingredients with artisanal techniques to create a delightful array of flavors. From classic favorites to innovative creations, each bite embodies our commitment to quality and taste.<br><br>
+                    
+                    Proudly embracing our Swedish heritage, we aim to be part of your special moments, offering a taste of tradition with a modern twist. Join us on a delicious journey as we craft memorable donut experiences, one bite at a time.<br><br>
+                    
+                    Thank you for choosing Gottfrids Munkfabrik. Let's savor the sweetness together.<br>
+                </p>
+            </div>
+        </section>
+
+        <!-- Cart -->
+        <section class="cart_outer_container" id="shoppingCartOuterContainer">
+            
+            <!-- Label for cart -->
+            <div class="label_container">
+                <div class="upper_container">
+                    <button class="arrow" id="shoppingCartArrow">Expand arrow</button>
+                </div>
+                <div class="lower_container">
+                    <button class="title" id="shoppingCartTitle">Shopping cart</button>
+                </div>
+            </div>
+           
+            <!-- Cart container -->
+            <div class="cart_inner_container" id="cartInnerContainer">
+                <!-- Products -->
+            </div>
+                
+        </section>
+
+        <!-- Checkout -->
+        <section class="checkout_outer_container" id="checkoutContainer">
+            <div class="checkout_inner_container">
+
+                <!-- Product from cart -->
+                <section class="checkout_containers">
+                    <div class="checkout_left_container">
+                        <h5 class="checkout_title">
+                            Cart
+                            <div class="checkout_circle circle_active"></div>
+                        </h5>
+                        <div class="checkout_line line_active"></div>
+                    </div>
+                    <div class="checkout_right_container" id="">
+                        <!-- Cart info displays -->
+                        <header class="checkout_cart_header">
+                            <p class="checkout_cart_product_flex">Product</p>
+                            <p class="checkout_cart_amount_flex">Amount</p>
+                            <p class="checkout_cart_price_flex">Price</p>
+                            <p class="checkout_trash_can_flex"></p>
+                        </header>
+
+                        <div class="checkout_cart_content">
+                            <ul class="checkout_cart_main" id="checkoutCartMain">
+                                <!-- Products in cart -->
+                            </ul>
+                        </div>
+
+                        <div class="checkout_cart_footer">
+                            <div class="checkout_cart_discount_code_container">
+                                <button class="checkout_option_button">
+                                    <span class="checkout_option_icon"></span>
+                                    Discount code
+                                </button>
+                            </div>
+                            <div class="checkout_cart_price_container"> 
+                                <!-- FIXME -->
+                                <span class="checkout_footer_text" id="checkoutShippingPrice">Shipping: 0 kr</span>
+                                <span class="checkout_footer_text" id="checkoutDiscountPrice">Discount: 0 kr</span>
+                                <span class="checkout_footer_text" id="checkoutSubTotal">Subtotal: 0 kr</span>
+                            </div>
+                        </div> 
+                    </div>
+                </section>
+
+                <!-- Customer's delivery informations -->
+                <section class="checkout_containers">
+                    <div class="checkout_left_container">
+                        <!-- Name and line -->
+                        <h5 class="checkout_title">
+                            Your information
+                            <div class="checkout_circle circle_active"></div>
+                        </h5>
+                        <div class="checkout_line line_active"></div>
+                    </div>
+                    <div class="checkout_right_container">
+                        <!-- Customer delivery information -->
+                        <p class="checkout_customer_info_box">* Required section</p>
+                        <form class="customer_delivery_info_container" action="">
+                            <div class="row">
+                                <div class="input_control row_flex">
+                                    <input type="text" class="customer_delivery_info_input" placeholder="First name *" id="customerFirstNameInput">
+                                    <label for="customerFirstNameInput" class="customer_delivery_info_label">First name</label>
+                                </div>
+                                <div class="input_control row_flex">
+                                    <input type="text" class="customer_delivery_info_input" placeholder="Last name *" id="customerLastNameInput">
+                                    <label for="customerLastNameInput" class="customer_delivery_info_label">Last name</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input_control row_flex">
+                                    <input type="text" class="customer_delivery_info_input" placeholder="Phone number *" id="customerPhoneNumberInput">
+                                    <label for="customerPhoneNumberInput" class="customer_delivery_info_label">Phone number</label>
+                                </div>
+                                <div class="input_control row_flex">
+                                    <input type="text" class="customer_delivery_info_input" placeholder="Email *" id="customerEmailInput">
+                                    <label for="customerEmailInput" class="customer_delivery_info_label">Email</label>
+                                </div>
+                            </div>
+                            <div class="input_control">
+                                <input type="text" class="customer_delivery_info_input" placeholder="Address *" id="customerAddressInput">
+                                <label for="customerAddressInput" class="customer_delivery_info_label">Address</label>
+                            </div>
+                            <div class="row">
+                                <div class="input_control row_flex">
+                                    <input type="text" class="customer_delivery_info_input" placeholder="ZIP code *" id="customerZipCodeInput">
+                                    <label for="customerZipCodeInput" class="customer_delivery_info_label">ZIP code</label>
+                                </div>
+                                <div class="input_control row_flex">
+                                    <input type="text" class="customer_delivery_info_input" placeholder="Post town *" id="customerPostTownInput">
+                                    <label for="customerPostTownInput" class="customer_delivery_info_label">Post town</label>
+                                </div>
+                                <div class="input_control row_flex">
+                                    <input type="text" class="customer_delivery_info_input" placeholder="Door code *" id="customerDoorCodeInput">
+                                    <label for="customerDoorCodeInput" class="customer_delivery_info_label">Door code</label>
+                                </div>
+                            </div>
+                            <div class="input_control" id="customerInputErrorMessage"></div>
+                        </form>
+                    </div>
+                </section>
+                
+                <!-- Payment methods -->
+                <section class="checkout_containers">
+                    <div class="checkout_left_container">
+                        <!-- Name and line -->
+                        <h5 class="checkout_title">
+                            Payment methods
+                            <div class="checkout_circle"></div>
+                        </h5>
+                        <div class="checkout_line"></div>
+                    </div>
+                    <ul class="checkout_right_container" id="paymentMethodsContainer">
+                        <!-- Payment methods -->
+                    </ul>
+                </section>
+
+                <!-- Payment information -->
+                <section class="checkout_containers">
+                    <div class="checkout_left_container">
+                        <!-- Name and line -->
+                        <h5 class="checkout_title">
+                            Complete purchase
+                            <div class="checkout_circle"></div>
+                        </h5>
+                        <!-- <div class="checkout_line"></div> -->
+                    </div>
+                    <div class="checkout_right_container" id="customerCompletePurchaseContainer">
+                        <!-- Payment methods -->
+                    </div>
+                </section>
+
+                <!-- Checkout footer -->
+                <section class="checkout_footer_outer_container">
+                    <div class="checkout_footer_inner_container">
+                        <span class="checkout_footer_sub_total">Subtotal: 0 kr</span>
+                        <button class="checkout_footer_button">Complete purchase</button>
+                    </div>
+                </section>
+            </div>
+        </section>
     </main>
 
     <footer>
-        footer
+        <div class="footer_outer_container">
+            <div class="footer_left_inner_container">
+                <div class="social_media_outer_container">
+                    <p class="social_media_title">Follow us on social media:</p>
+                    <ul class="social_media_inner_container">
+                        <li class="social_media_box whatsapp_icon">Whatsapp</li>
+                        <li class="social_media_box x_twitter_icon">X Twitter</li>
+                        <li class="social_media_box facebook_icon">Facebook</li>
+                        <li class="social_media_box instagram_icon">Instagram</li>
+                    </ul>
+                </div>
+                <div class="copyright_container">
+                    <p class="copyright_text">&#169; 2023 All Rights Reserved.</p>
+                </div>
+            </div>
+            <div class="footer_center_inner_container">
+                <div class="opening_hours_container">
+                    <p class="opening_hours_title">
+                        Opening hours:
+                    </p>
+                    <p class="schedule_container">
+                        Monday to Friday: 8:00 AM - 6:00 PM <br> Saturday and Sunday: 9:00 AM - 3:00 PM
+                    </p>
+                </div>
+                <div class="newsletter_container">
+                    <p class="newsletter_hours_title">
+                        Sign up for news
+                    </p>
+                    <form class="newsletter_form_container">
+                        <input class="newsletter_input" type="email">
+                        <button class="sign_up_newsletter_button">
+                            <span class="sign_up_newsletter_icon"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer_right_inner_container">
+                <p class="contant_us_title">
+                    Contact us
+                </p>
+                <div class="contact_inforamtions">
+                    <p>
+                        Adress: Gottfrids Munkfabrik Gatunamn 123, 123 45 Stad, Sverige
+                    </p>
+                    <p>
+                        Phone number: +46 123 456 789
+                    </p>
+                    <p>
+                        Email: info@gottfridsmunkfabrik.se
+                    </p>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script type="module" src="main.mjs"></script>
