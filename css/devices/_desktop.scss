@@ -1315,7 +1315,6 @@ body {
         */
 
         .about_us_container {
-            grid-column: 2 / span 10;
             @include gridCreation(column, 10, 1fr, 0);
             background-color: var(--secondary-color);
             max-height: fit-content;
@@ -1341,8 +1340,6 @@ body {
             .about_us_text_container {
                 grid-column: 5 / span 6;
                 padding: 20px;
-                max-height: 366px;
-                transition: max-height 1s ease-in-out 0s;
 
                 .about_us_title_container {
                     display: flex;
@@ -1374,11 +1371,17 @@ body {
                 
                 .about_us_text {
                     font-size: var(--about-us-text-font-size);
+                    max-height: 227px;
+                    overflow: hidden;
+                    transition: max-height .5s cubic-bezier(.66,.09,.37,.94) 0s;
                 }
             }
             .about_us_text_container_expand {
-                max-height: 1000px;
-                transition: max-height 1s ease-in-out 0s;
+                
+                .about_us_text {
+                    max-height: 1000px;
+                    transition: max-height .5s cubic-bezier(.66,.09,.37,.94) 0s;
+                }
             }
         }
         .about_us_button_open {
