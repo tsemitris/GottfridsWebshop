@@ -24,10 +24,12 @@ The objective of this particular assignment was about creating a responsible web
 
 <details>
     <summary>Story behind this assignment</summary>
-    
+    <p>
     Mr Gottfrid Jästson has been selling donuts in shops for many years. Unfortunately, he has noticed declining sales figures due to all kinds of "couriers" who ride dangerous electric scooters around the city.
-
+    </p>
+    <p>
     Well, Gottfrid does not despair more than necessary; a small webshop for donuts* would be in order - and my agency, Webbyrån Justin Time AB, has been selected as the supplier to build it! It now rests on my shoulders that Gottfrid does not go bankrupt.
+    </p>  
 </details>
 
 ## 🗂️ Learning objectives & assessment
