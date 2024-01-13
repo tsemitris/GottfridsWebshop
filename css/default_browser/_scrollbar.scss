@@ -1,13 +1,20 @@
+// Mozilla
+* {
+    scrollbar-color: var(--main-text-color) var(--secondary-color);
+    scrollbar-width: thin;
+}
+
+// Other browsers
 ::-webkit-scrollbar {
     background-color: var(--secondary-color);
     width: 10px;
 }
 
-::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
     margin: 10px;
 }
 
-::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
     background: var(--main-text-color); 
 
     &:hover {
