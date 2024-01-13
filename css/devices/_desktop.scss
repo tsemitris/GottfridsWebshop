@@ -158,12 +158,12 @@
 +-+-+-+-+-+-+-+-+-+-+-+- STYLE -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 */
-
 body {
     background-color: var(--main-color);
     color: var(--main-text-color);
     @include gridCreation(column, 12, 1fr, 0);
     font-family: 'Nunito Sans', 'Roboto Condensed', sans-serif;
+
 
     .visible {
         animation: .7s ease-in-out 0s 1 slideInFromTop;
@@ -1172,7 +1172,7 @@ body {
                         &:last-child {
                             border-right: 0;
                         }
-                        
+
                         &:hover {
                             
                             .product_images_outer_container {
@@ -1222,6 +1222,18 @@ body {
                                 @include buttonReset(none, none);
                                 font-size: 0;
                                 padding: 0;
+                                cursor: pointer;
+
+                                &:hover {
+
+                                    .left_button {
+                                        animation: 1.2s ease-in-out 0s infinite slightlyToLeftArrow;
+                                    }
+
+                                    .right_button {
+                                        animation: 1.2s ease-in-out 0s infinite slightlyToRightArrow;
+                                    }
+                                }
 
                                 .left_button, .right_button {
                                     display: block;
@@ -1230,23 +1242,15 @@ body {
                                     background-color: var(--main-text-color);
                                     mask-image: url("../assets/icons/expand_arrow.svg");
                                     position: relative;
-                                    cursor: pointer;
+                                    pointer-events: none;
                                 }
 
                                 .left_button {
                                     transform: rotate(90deg);
-
-                                    &:hover {
-                                        animation: 1.2s ease-in-out 0s infinite slightlyToLeftArrow;
-                                    }
                                 }
 
                                 .right_button {
                                     transform: rotate(-90deg);
-
-                                    &:hover {
-                                        animation: 1.2s ease-in-out 0s infinite slightlyToRightArrow;
-                                    }
                                 }
                             }
                         }

@@ -248,14 +248,14 @@ for(let j = 0; j < productsObject.donuts.length; j++) {
             </div>
 
             <div class="product_images_slider_buttons">
-                <button class="slider_button">
+                <button class="slider_button" id="previousDonutImageArrow${j}">
                     Previous image
-                    <span class="left_button" id="previousDonutImageArrow${j}"></span>
+                    <span class="left_button"></span>
                 </button>
 
-                <button class="slider_button">
+                <button class="slider_button" id="nextDonutImageArrow${j}">
                     Next image
-                    <span class="right_button" id="nextDonutImageArrow${j}"></span>
+                    <span class="right_button"></span>
                 </button>
             </div>
 
