@@ -1,21 +1,7 @@
 
 // Imports
 import { websiteObjects, cartObject } from "./js/websiteObjects.mjs";
-
-
-// FIXME Set me in a interval
-let today = new Date();
-
-let options = { weekday: 'long' };
-let dayOfWeek = today.toLocaleDateString('en-US', options);
-
-let dd = String(today.getDate()).padStart(2, '0');
-let mm = String(today.getMonth() + 1).padStart(2, '0');
-let yyyy = today.getFullYear();
-
-let hours = String(today.getHours()).padStart(2, '0');
-let minutes = String(today.getMinutes()).padStart(2, '0');
-let seconds = String(today.getSeconds()).padStart(2, '0');
+import printHeaderOptions from "./src/script/header/options.mjs";
 
 
 
@@ -50,7 +36,8 @@ let sliderButtonNumber = 1;
 
 const innerImagesContainer = document.querySelector('#innerImagesContainer');
 
-
+// -------------------------------------------------------------------[ Amount ]
+let totalDiscountAmount = 0;
 
 /**
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -90,7 +77,7 @@ document.addEventListener('scroll', () => {
     windowScrollPosition = window.scrollY;
 
     // Menu
-    if(windowScrollPosition <= 470){
+    if (windowScrollPosition <= 470) {
         headerElement.classList.remove('hidden');
     }
     else if (windowScrollPosition <= usersLastKnownPosition) {
@@ -106,12 +93,12 @@ document.addEventListener('scroll', () => {
 
     // Categories div
     let endMenuPosition = 445 - categoriesList.offsetHeight;
-    if(windowScrollPosition <= endMenuPosition) {
+    if (windowScrollPosition <= endMenuPosition) {
         categoriesList.style.transform = `
             translateY(${windowScrollPosition}px)
         `;
     }
-    else if(windowScrollPosition >= endMenuPosition){
+    else if (windowScrollPosition >= endMenuPosition) {
         categoriesList.style.transform = `
             translateY(${endMenuPosition}px)
         `;
@@ -128,25 +115,7 @@ document.addEventListener('scroll', () => {
  * All the code below displays in the html
 */
 
-/** ----------------------------------------------------------[ Options ]---[ 2 ]
- *  For each item in menuOptions
- *      In optionsHeader
- *          + add button
- *              + add class
- *              + add context
-*/
-menuOptions.forEach(i => {
-    const optionName = i.name.toLowerCase();
-
-    optionsHeader.innerHTML += `
-        <button class="options" id="${optionName}Option">
-            <span class="${i.underclass}"></span>
-            <span class="text">
-                ${i.name}
-            </span>
-        </button>
-    `;
-});
+printHeaderOptions();
 
 
 /** -------------------------------------------------------[ Categories ]---[ 2 ]
@@ -189,7 +158,7 @@ categoriesObject.forEach(i => {
  *              + add id
  *              + add context
  * 
-*/ 
+*/
 // Image(s)
 storeImagesObject.forEach(i => {
     innerImagesContainer.innerHTML += `
@@ -203,7 +172,7 @@ storeImagesObject.forEach(i => {
 
 // Button(s)
 storeImagesObject.forEach(i => {
-    if(sliderButtonNumber == 1) {
+    if (sliderButtonNumber == 1) {
         sliderButtonsContainer.innerHTML += `
         <button class="checked" id="sliderButton${sliderButtonNumber}">
             Slide image button ${sliderButtonNumber}
@@ -216,7 +185,7 @@ storeImagesObject.forEach(i => {
             Slide image button ${sliderButtonNumber}
         </button>
         `;
-    }  
+    }
     sliderButtonNumber++;
 });
 
@@ -225,7 +194,7 @@ storeImagesObject.forEach(i => {
  * TODO:
 */
 
-for(let i = 0; i < categoriesObject.length; i++) { 
+for (let i = 0; i < categoriesObject.length; i++) {
     let categoryName = categoriesObject[i].name.toLowerCase().replace(/\s/g, ''); // Remove the spaces and make the text Lowercase
 
     categoriesContainer.innerHTML += `
@@ -234,13 +203,11 @@ for(let i = 0; i < categoriesObject.length; i++) {
         </section>
     `;
 
-    
+
 }
 
-increasePriceRule();
-
-const currentCategoryContainer = document.querySelector(`#donutInnerContainer`);   
-for(let j = 0; j < productsObject.donuts.length; j++) {
+const currentCategoryContainer = document.querySelector(`#donutInnerContainer`);
+for (let j = 0; j < productsObject.donuts.length; j++) {
     currentCategoryContainer.innerHTML += `
         <section id="donutSection${j}">
             <div class="product_images_outer_container">
@@ -248,14 +215,14 @@ for(let j = 0; j < productsObject.donuts.length; j++) {
             </div>
 
             <div class="product_images_slider_buttons">
-                <button class="slider_button" id="previousDonutImageArrow${j}">
+                <button class="slider_button">
                     Previous image
-                    <span class="left_button"></span>
+                    <span class="left_button" id="previousDonutImageArrow${j}"></span>
                 </button>
 
-                <button class="slider_button" id="nextDonutImageArrow${j}">
+                <button class="slider_button">
                     Next image
-                    <span class="right_button"></span>
+                    <span class="right_button" id="nextDonutImageArrow${j}"></span>
                 </button>
             </div>
 
@@ -279,7 +246,7 @@ for(let j = 0; j < productsObject.donuts.length; j++) {
 
     let productDonutId = document.querySelector(`#innerDonutProductImageContainer${j}`);
 
-    for(let k = 0; k < productsObject.donuts[j].images.length; k++) {
+    for (let k = 0; k < productsObject.donuts[j].images.length; k++) {
         productDonutId.innerHTML += `
             <img 
                 class="donut_product_image"
@@ -295,9 +262,9 @@ for(let j = 0; j < productsObject.donuts.length; j++) {
 
         let currentImage = document.querySelector(`#productDonut${j}Image${k}`);
 
-        for(let l = 0; l < productsObject.donuts[j].images[k].optimizedImages.length; l++) {
+        for (let l = 0; l < productsObject.donuts[j].images[k].optimizedImages.length; l++) {
             let currentAttribute = currentImage.getAttribute('srcset');
-            if(currentAttribute == '') {
+            if (currentAttribute == '') {
                 currentImage.setAttribute('srcset', `${productsObject.donuts[j].images[k].optimizedImages[l].imageUrl} ${productsObject.donuts[j].images[k].optimizedImages[l].imageWidth}w`);
             }
             else {
@@ -309,13 +276,13 @@ for(let j = 0; j < productsObject.donuts.length; j++) {
 
 
 productsObject.donuts.forEach(i => {
-    let previousDonutImageArrowId = document.querySelector(`#previousDonutImageArrow${productDonutCurrentCountSize}`); 
-    let nextDonutImageArrowId = document.querySelector(`#nextDonutImageArrow${productDonutCurrentCountSize}`);  
-    let donutAddToCartButtonId = document.querySelector(`#donutAddToCartButton${productDonutCurrentCountSize}`); 
+    let previousDonutImageArrowId = document.querySelector(`#previousDonutImageArrow${productDonutCurrentCountSize}`);
+    let nextDonutImageArrowId = document.querySelector(`#nextDonutImageArrow${productDonutCurrentCountSize}`);
+    let donutAddToCartButtonId = document.querySelector(`#donutAddToCartButton${productDonutCurrentCountSize}`);
 
     previousDonutImageArrowId.addEventListener('click', previousProductImage);
     nextDonutImageArrowId.addEventListener('click', nextProductImage);
-    donutAddToCartButtonId.addEventListener('click', addProductToCart); 
+    donutAddToCartButtonId.addEventListener('click', addProductToCart);
 
     productDonutCurrentCountSize++;
 });
@@ -326,12 +293,12 @@ function nextProductImage(e) {
     let buttonNumberId = Number((buttonId).replace(/\D/g, ""));
 
 
-    if(buttonId.toLowerCase().includes('donut')) {
+    if (buttonId.toLowerCase().includes('donut')) {
         let productDonutId = document.querySelector(`#innerDonutProductImageContainer${buttonNumberId}`);
         let donutProductCurrentImageNumberId = productsObject.donuts[buttonNumberId].imagePosition;
         let imagesLenght = productsObject.donuts[buttonNumberId].images.length;
 
-        if(donutProductCurrentImageNumberId < imagesLenght) {
+        if (donutProductCurrentImageNumberId < imagesLenght) {
             productDonutId.style.transform = `
                 translateX(-${donutProductCurrentImageNumberId * 100}%)
             `;
@@ -341,7 +308,7 @@ function nextProductImage(e) {
             productDonutId.style.transform = `
                 translateX(${0}%)
            `;
-           productsObject.donuts[buttonNumberId].imagePosition = 1;
+            productsObject.donuts[buttonNumberId].imagePosition = 1;
         }
     }
 }
@@ -351,19 +318,19 @@ function previousProductImage(e) {
     let buttonId = e.target.id;
     let buttonNumberId = Number((buttonId).replace(/\D/g, ""));
 
-    if(buttonId.toLowerCase().includes('donut')) {
+    if (buttonId.toLowerCase().includes('donut')) {
         let productDonutId = document.querySelector(`#innerDonutProductImageContainer${buttonNumberId}`);
         let donutProductCurrentImageNumberId = productsObject.donuts[buttonNumberId].imagePosition;
         let imagesLenght = productsObject.donuts[buttonNumberId].images.length;
-        
-        if(donutProductCurrentImageNumberId == 1) {
+
+        if (donutProductCurrentImageNumberId == 1) {
             productDonutId.style.transform = `
                 translateX(-${(imagesLenght - 1) * 100}%)
             `;
 
             productsObject.donuts[buttonNumberId].imagePosition = imagesLenght;
         }
-        else if(donutProductCurrentImageNumberId > 0 && donutProductCurrentImageNumberId <= imagesLenght) {
+        else if (donutProductCurrentImageNumberId > 0 && donutProductCurrentImageNumberId <= imagesLenght) {
             productDonutId.style.transform = `
                 translateX(-${(donutProductCurrentImageNumberId - 2) * 100}%)
             `;
@@ -404,7 +371,7 @@ shoppingCartTitle.addEventListener('click', toggleShoppingCart);
 
 
 function toggleShoppingCart() {
-    if(!shoppingCartOuterContainer.classList.contains('open')) {
+    if (!shoppingCartOuterContainer.classList.contains('open')) {
         shoppingCartOuterContainer.classList.toggle('open');
         shoppingCartArrow.classList.toggle('open');
     }
@@ -421,14 +388,14 @@ function toggleShoppingCart() {
  * empty then it will add a paragraph with a message in it.
 */
 
-let checkoutContainer = document.querySelector('#checkoutContainer'); 
+let checkoutContainer = document.querySelector('#checkoutContainer');
 let emptyCart = false;
 
 // Display the message that the "cart is empty"
 onEmptyCart();
 
-checkoutContainer.addEventListener('click', (e)=> {
-    if(e.target.classList[0] !== 'checkout_outer_container') return;
+checkoutContainer.addEventListener('click', (e) => {
+    if (e.target.classList[0] !== 'checkout_outer_container') return;
 
     checkoutContainer.classList.toggle('checkout_visible');
     document.body.style.overflow = 'auto';
@@ -477,18 +444,18 @@ function addProductToCart(e) {
 
         let emptyCartButton = document.querySelector('#emptyCartButton');
         let proceedToCheckoutButton = document.querySelector('#proceedToCheckoutButton');
-        
+
 
         emptyCartButton.addEventListener('click', () => {
             for (let i = 0; i < cartObject.length; i++) {
                 cartObject[i].amount = 0;
             }
-            
+
             cartInnerContainer.innerHTML = '';
             checkoutCartMain.innerHTML = '';
             cartObject.splice(0, cartObject.length);
 
-            if(cartObject.length === 0) {
+            if (cartObject.length === 0) {
                 if (!emptyCart) {
                     cartInnerContainer.innerHTML += ` 
                         <p class="message">Your cart is empty!</p>
@@ -504,10 +471,10 @@ function addProductToCart(e) {
     }
 
 
-    
+
     let cartMain = document.querySelector('#cartMain');
     let checkoutCartMain = document.querySelector('#checkoutCartMain');
-    if(buttonId.toLowerCase().includes('donut')) {
+    if (buttonId.toLowerCase().includes('donut')) {
         productsObject.donuts[buttonNumberId].amount += 1;
         cartObject.push(...productsObject.donuts.filter(product => product.amount > 0));
     }
@@ -568,7 +535,7 @@ function createProductContainerToCart() {
                 </div>
                 </div>
             </li>
-        `; 
+        `;
 
         // Checkout
         checkoutCartMain.innerHTML += `
@@ -614,13 +581,13 @@ function createProductContainerToCart() {
                 </div>
             </li>
         `;
-        
+
         // Set srcset to all images
         let currentCartImage = document.querySelector(`#cartProductImage${currentNumber}`);
         let currentCheckoutCartImage = document.querySelector(`#cartProductImage${currentNumber}`);
-        for(let i = 0; i < cartObject[currentNumber].images[0].optimizedImages.length; i++) {
+        for (let i = 0; i < cartObject[currentNumber].images[0].optimizedImages.length; i++) {
             let currentAttribute = currentCartImage.getAttribute('srcset');
-            if(currentAttribute == '') {
+            if (currentAttribute == '') {
                 currentCartImage.setAttribute('srcset', `${cartObject[currentNumber].images[0].optimizedImages[i].imageUrl} ${cartObject[currentNumber].images[0].optimizedImages[i].imageWidth}w`);
                 currentCheckoutCartImage.setAttribute('srcset', `${cartObject[currentNumber].images[0].optimizedImages[i].imageUrl} ${cartObject[currentNumber].images[0].optimizedImages[i].imageWidth}w`);
             }
@@ -644,7 +611,7 @@ function addEventAtCartButtons() {
         let cartDecreaseAmountButton = document.querySelector(`#cartProductDecreaseAmountButton${index}`);
         let cartIncreaseAmountButton = document.querySelector(`#cartProductIncreaseAmountButton${index}`);
         let cartProductTrashCan = document.querySelector(`#cartProductTrashCan${index}`);
-        
+
         let checkoutDecreaseAmountButton = document.querySelector(`#checkoutCartProductDecreaseAmountButton${index}`);
         let checkoutIncreaseAmountButton = document.querySelector(`#checkoutCartProductIncreaseAmountButton${index}`);
         let checkoutCartProductTrashCan = document.querySelector(`#checkoutCartProductTrashCan${index}`);
@@ -656,9 +623,9 @@ function addEventAtCartButtons() {
         checkoutDecreaseAmountButton.addEventListener('click', decreaseCartProductAmount);
         checkoutIncreaseAmountButton.addEventListener('click', increaseCartProductAmount);
         checkoutCartProductTrashCan.addEventListener('click', removeProductFromCart);
-        
+
         index++;
-    }); 
+    });
 }
 
 
@@ -669,8 +636,6 @@ function decreaseCartProductAmount(e) {
 
     let cartProductAmount = document.querySelector(`#cartProductAmount${buttonNumberId}`);
     let checkoutCartProductAmount = document.querySelector(`#checkoutCartProductAmount${buttonNumberId}`);
-    let cartProductTotalPrice = document.querySelector(`#cartProductTotalPrice${buttonNumberId}`);
-    let checkoutCartProductTotalPrice = document.querySelector(`#checkoutCartProductTotalPrice${buttonNumberId}`);
     let amount = Number(cartProductAmount.textContent);
 
     if (amount < 2) return;
@@ -683,16 +648,8 @@ function decreaseCartProductAmount(e) {
     // Change the amount in the object
     cartObject[buttonNumberId].amount = amount;
     // Change the total price in the product
-    if (amount >= 10) {
-        const discountFinalCost = (amount * cartObject[buttonNumberId].price) * 0.9;
 
-        cartProductTotalPrice.textContent = `${discountFinalCost.toFixed(0)} kr`;
-        checkoutCartProductTotalPrice.textContent = `${discountFinalCost.toFixed(0)} kr`;
-    }
-    else {
-        cartProductTotalPrice.textContent = `${amount * cartObject[buttonNumberId].price} kr`;
-        checkoutCartProductTotalPrice.textContent = `${amount * cartObject[buttonNumberId].price} kr`;
-    }
+    productAmountDiscount(buttonNumberId, amount);
 
     cartSubTotal();
 }
@@ -702,30 +659,18 @@ function increaseCartProductAmount(e) {
 
     let cartProductAmount = document.querySelector(`#cartProductAmount${buttonNumberId}`);
     let checkoutCartProductAmount = document.querySelector(`#checkoutCartProductAmount${buttonNumberId}`);
-    let cartProductTotalPrice = document.querySelector(`#cartProductTotalPrice${buttonNumberId}`);
-    let checkoutCartProductTotalPrice = document.querySelector(`#checkoutCartProductTotalPrice${buttonNumberId}`);
     let amount = Number(cartProductAmount.textContent);
-    
+
     amount += 1;
-    
+
     // Change the amount in the product text
     cartProductAmount.textContent = amount;
     checkoutCartProductAmount.textContent = amount;
     // Change the amount in the object
     cartObject[buttonNumberId].amount = amount;
     // Change the total price in the product
-    // If customer shop more than 10 sorts then a discount of 10% will applies.
-    if (amount >= 10) {
-        const discountFinalCost = (amount * cartObject[buttonNumberId].price) * 0.9;
 
-        cartProductTotalPrice.textContent = `${discountFinalCost.toFixed(0)} kr`;
-        checkoutCartProductTotalPrice.textContent = `${discountFinalCost.toFixed(0)} kr`;
-    }
-    else {
-        cartProductTotalPrice.textContent = `${amount * cartObject[buttonNumberId].price} kr`;
-        checkoutCartProductTotalPrice.textContent = `${amount * cartObject[buttonNumberId].price} kr`;
-    }
-    
+    productAmountDiscount(buttonNumberId, amount);
 
     cartSubTotal();
 }
@@ -778,7 +723,7 @@ function toggleCheckout() {
     checkoutContainer.classList.toggle('checkout_visible');
     shoppingCartOuterContainer.classList.toggle('open');
     shoppingCartArrow.classList.toggle('open');
-    
+
     document.body.style.overflow = 'hidden';
 }
 
@@ -792,19 +737,18 @@ function cartSubTotal() {
     for (let i = 0; i < cartObject.length; i++) {
         let cartProductTotalPrice = document.querySelector(`#cartProductTotalPrice${i}`);
         let cartProductPrice = Number(cartProductTotalPrice.textContent.replace(/\D/g, ""));
-        
-        
+
+
         totalPrice += cartProductPrice;
 
-        dayRules();
 
         cartSubTotal.textContent = `Subtotal: ${totalPrice} kr`;
         checkoutSubTotal.textContent = `Subtotal: ${totalPrice} kr`;
     }
-    
+
 }
 function onEmptyCart() {
-    if(cartObject.length === 0) {
+    if (cartObject.length === 0) {
         if (!emptyCart) {
             cartInnerContainer.innerHTML = '';
             checkoutCartMain.innerHTML = '';
@@ -833,42 +777,42 @@ let errorsMessageDisplayCustomerInfo = [];
 
 let customerInfoInputObject = [
     {
-        customerFirstNameInput: 
+        customerFirstNameInput:
         {
             regEx: `^[a-zA-Z-' ]{2,}$`,
             errorMessage: 'Please enter a valid first name | Minimum letters 2 | No digits is allow',
         },
-        customerLastNameInput: 
+        customerLastNameInput:
         {
             regEx: `^[a-zA-Z-' ]{2,}$`,
             errorMessage: 'Please enter a valid last name | Minimum letters 2 | No digits is allow',
         },
-        customerPhoneNumberInput: 
+        customerPhoneNumberInput:
         {
             regEx: `^((\\+46|0)7[\\s-]*\\d{4}[\\s-]?\\d{4,5})$`,
             errorMessage: 'Please enter a valid phone number | 07123456789',
         },
-        customerEmailInput: 
+        customerEmailInput:
         {
             regEx: `^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,4}$`,
             errorMessage: 'Please enter a valid email',
         },
-        customerAddressInput: 
+        customerAddressInput:
         {
             regEx: `.{5,100}`,
             errorMessage: 'Please enter a valid adress',
         },
-        customerZipCodeInput: 
+        customerZipCodeInput:
         {
             regEx: `^.{2,20}$`,
             errorMessage: 'Please enter a valid ZIP code',
         },
-        customerPostTownInput: 
+        customerPostTownInput:
         {
             regEx: `^[a-zA-ZåÅ' -]{2,}$`,
             errorMessage: 'Please enter a valid post town',
         },
-        customerDoorCodeInput: 
+        customerDoorCodeInput:
         {
             regEx: `^((6553[0-5])|(655[0-2][0-9])|(65[0-4][0-9]{2})|(6[0-4][0-9]{3})|([1-5][0-9]{4})|([0-5]{0,5})|([0-9]{1,4}))$`,
             errorMessage: 'Please enter a valid door code',
@@ -904,13 +848,13 @@ function checkCurrentInput(e) {
     // Regex
     const regEx = new RegExp(`${inputValidationInfo[currentInput].regEx}`);
 
-    let inputValue = regEx.exec(inputElemnt.value); 
+    let inputValue = regEx.exec(inputElemnt.value);
 
-    if(inputValue === null) {
+    if (inputValue === null) {
         inputElemnt.classList.add('customer_input_error');
         errorsMessageDisplayCustomerInfo[`${currentInput}`] = `${inputValidationInfo[currentInput].errorMessage}`;
         displayErrorMessages();
-    } 
+    }
     else {
         inputElemnt.classList.remove('customer_input_error');
         delete errorsMessageDisplayCustomerInfo[`${currentInput}`];
@@ -926,16 +870,16 @@ function displayErrorMessages() {
 
     customerInputErrorMessage.innerHTML = '';
 
-    for(let i = 0; i < errors.length; i++) { 
+    for (let i = 0; i < errors.length; i++) {
         customerInputErrorMessage.innerHTML += ` 
             <p>${errorsMessageDisplayCustomerInfo[errors[i]]}</p>
         `;
     }
 
-    if(Object.keys(errorsMessageDisplayCustomerInfo).length === 0) {
+    if (Object.keys(errorsMessageDisplayCustomerInfo).length === 0) {
         customerInputErrorMessage.classList.remove('error_messages');
     }
-    else if(Object.keys(errorsMessageDisplayCustomerInfo).length >= 1) {
+    else if (Object.keys(errorsMessageDisplayCustomerInfo).length >= 1) {
         customerInputErrorMessage.classList.add('error_messages');
     }
 }
@@ -955,7 +899,7 @@ let paymentMethodsContainer = document.querySelector('#paymentMethodsContainer')
 let customerCompletePurchaseContainer = document.querySelector('#customerCompletePurchaseContainer');
 let paymentCurrentCount = 0;
 
-paymentMethodsObject.forEach( e => {
+paymentMethodsObject.forEach(e => {
 
     if (paymentCurrentCount === 0) {
         paymentMethodsContainer.innerHTML += `
@@ -997,7 +941,7 @@ paymentMethodsObject.forEach( e => {
 
 cardPaymentContent();
 
-for(let i = 0; i < paymentMethodsObject.length; i++) {
+for (let i = 0; i < paymentMethodsObject.length; i++) {
     const currentPaymentMethodRadio = document.querySelector(`#cardPaymentMethodRadio${i}`);
     currentPaymentMethodRadio.addEventListener('click', selectedPaymentMethod);
 }
@@ -1006,11 +950,11 @@ for(let i = 0; i < paymentMethodsObject.length; i++) {
 function selectedPaymentMethod(e) {
     let pressedButtonId = Number(e.target.id.replace(/\D/g, ""));
 
-    for(let i = 0; i < paymentMethodsObject.length; i++) {
+    for (let i = 0; i < paymentMethodsObject.length; i++) {
         const checkoutPaymentOption = document.querySelector(`#checkoutPaymentOption${i}`);
         const radioInput = document.querySelector(`#cardPaymentMethodRadio${i}`);
 
-        if(i === pressedButtonId) {
+        if (i === pressedButtonId) {
             checkoutPaymentOption.classList.add('payment_option_selected');
             radioInput.checked = true;
         }
@@ -1021,10 +965,10 @@ function selectedPaymentMethod(e) {
     }
 
     customerCompletePurchaseContainer.innerHTML = '';
-    if(e.target.value == 'invoice') {
+    if (e.target.value == 'invoice') {
         invoicePaymentContent();
     }
-    else if(e.target.value == 'card') {
+    else if (e.target.value == 'card') {
         cardPaymentContent();
     }
 }
@@ -1063,32 +1007,32 @@ function cardPaymentContent() {
 
     let customerPaymentInfoInputObject = [
         {
-            customerCardName: 
+            customerCardName:
             {
                 regEx: `^(?:[A-Za-z]+ ?){1,3}$`,
                 errorMessage: 'Please enter a valid card name | Digits is not allow',
             },
-            customerCardNumber: 
+            customerCardNumber:
             {
                 regEx: `^5[1-5][0-9]{14}$`,
                 errorMessage: 'Please enter a valid card number',
             },
-            customerCardExpirationDate: 
+            customerCardExpirationDate:
             {
                 regEx: `^(0[1-9]|1[0-2])\/(?:[0-9]{2})?[0-9]{2}$`,
                 errorMessage: 'Please enter a valid date | MM/YY | Month/year',
             },
-            customerCardCVC: 
+            customerCardCVC:
             {
                 regEx: `^[0-9]{3}$`,
                 errorMessage: 'Please enter a valid CVC | 123',
             },
-            customerPersonalIdentityNumber: 
+            customerPersonalIdentityNumber:
             {
                 regEx: `^(\d{10}|\d{12}|\d{6}-\d{4}|\d{8}-\d{4}|\d{8} \d{4}|\d{6} \d{4})`,
                 errorMessage: 'Please enter a valid CVC | 123',
             },
-            
+
         }
     ];
 
@@ -1116,14 +1060,14 @@ function cardPaymentContent() {
         // Regex
         const regEx = new RegExp(`${inputValidationInfo[currentInput].regEx}`);
 
-        let inputValue = regEx.exec(inputElemnt.value); 
+        let inputValue = regEx.exec(inputElemnt.value);
         console.log(inputValue);
 
-        if(inputValue === null) {
+        if (inputValue === null) {
             inputElemnt.classList.add('customer_input_error');
             errorsMessageDisplayCustomerPayment[`${currentInput}`] = `${inputValidationInfo[currentInput].errorMessage}`;
             displayErrorMessagesPaymentInput();
-        } 
+        }
         else {
             inputElemnt.classList.remove('customer_input_error');
             delete errorsMessageDisplayCustomerPayment[`${currentInput}`];
@@ -1140,16 +1084,16 @@ function cardPaymentContent() {
 
         customerCardPaymentInputErrorMessage.innerHTML = '';
 
-        for(let i = 0; i < errors.length; i++) { 
+        for (let i = 0; i < errors.length; i++) {
             customerCardPaymentInputErrorMessage.innerHTML += ` 
                 <p>${errorsMessageDisplayCustomerPayment[errors[i]]}</p>
             `;
         }
 
-        if(Object.keys(errorsMessageDisplayCustomerPayment).length === 0) {
+        if (Object.keys(errorsMessageDisplayCustomerPayment).length === 0) {
             customerCardPaymentInputErrorMessage.classList.remove('error_messages');
         }
-        else if(Object.keys(errorsMessageDisplayCustomerPayment).length >= 1) {
+        else if (Object.keys(errorsMessageDisplayCustomerPayment).length >= 1) {
             customerCardPaymentInputErrorMessage.classList.add('error_messages');
         }
     }
@@ -1173,17 +1117,17 @@ function invoicePaymentContent() {
 
     let customerPaymentInfoInputObject = [
         {
-            customerPersonalIdentityNumber: 
+            customerPersonalIdentityNumber:
             {
                 regEx: `^(?:19|20)?[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[-+]{1}[0-9]{4}$`,
                 errorMessage: 'Please enter a valid personal identity number',
-            },   
+            },
         }
     ];
 
 
     const customersPaymentInfoInput = [
-        document.querySelector('#customerPersonalIdentityNumber') 
+        document.querySelector('#customerPersonalIdentityNumber')
     ];
 
     customersPaymentInfoInput.forEach(input => {
@@ -1202,14 +1146,14 @@ function invoicePaymentContent() {
         // Regex
         const regEx = new RegExp(`${inputValidationInfo[currentInput].regEx}`);
 
-        let inputValue = regEx.exec(inputElemnt.value); 
+        let inputValue = regEx.exec(inputElemnt.value);
         console.log(inputValue);
 
-        if(inputValue === null) {
+        if (inputValue === null) {
             inputElemnt.classList.add('customer_input_error');
             errorsMessageDisplayCustomerPayment[`${currentInput}`] = `${inputValidationInfo[currentInput].errorMessage}`;
             displayErrorMessagesPaymentInput();
-        } 
+        }
         else {
             inputElemnt.classList.remove('customer_input_error');
             delete errorsMessageDisplayCustomerPayment[`${currentInput}`];
@@ -1226,16 +1170,16 @@ function invoicePaymentContent() {
 
         customerCardPaymentInputErrorMessage.innerHTML = '';
 
-        for(let i = 0; i < errors.length; i++) { 
+        for (let i = 0; i < errors.length; i++) {
             customerCardPaymentInputErrorMessage.innerHTML += ` 
                 <p>${errorsMessageDisplayCustomerPayment[errors[i]]}</p>
             `;
         }
 
-        if(Object.keys(errorsMessageDisplayCustomerPayment).length === 0) {
+        if (Object.keys(errorsMessageDisplayCustomerPayment).length === 0) {
             customerCardPaymentInputErrorMessage.classList.remove('error_messages');
         }
-        else if(Object.keys(errorsMessageDisplayCustomerPayment).length >= 1) {
+        else if (Object.keys(errorsMessageDisplayCustomerPayment).length >= 1) {
             customerCardPaymentInputErrorMessage.classList.add('error_messages');
         }
     }
@@ -1309,7 +1253,7 @@ storeSlideImageButton.forEach(i => {
 function swipeImage(e) {
     let buttonId = e.target.id;
     let buttonNumberId = Number((buttonId).replace(/\D/g, ""));
-    
+
     function toggleCheckUncheck() {
         e.target.className = 'checked';
 
@@ -1320,8 +1264,8 @@ function swipeImage(e) {
         });
     }
 
-    if(buttonNumberId == 1) {
-        if(buttonNumberId == storeSwipeImagesOldButtonNumberId) return;
+    if (buttonNumberId == 1) {
+        if (buttonNumberId == storeSwipeImagesOldButtonNumberId) return;
         swipeStoreImageXposition = 0;
         innerImagesContainer.style.transform = 'translateX(0%)';
         toggleCheckUncheck();
@@ -1336,12 +1280,12 @@ function swipeImage(e) {
 }
 
 setInterval(() => {
-    if (storeSwipeImagesOldButtonNumberId !== storeImagesObject.length){
+    if (storeSwipeImagesOldButtonNumberId !== storeImagesObject.length) {
         innerImagesContainer.style.transform = `
             translateX(-${(storeSwipeImagesOldButtonNumberId) * increaseDecreaseStoreImageValue}%)
         `;
         storeSwipeImagesOldButtonNumberId += 1;
-    } 
+    }
     else {
         storeSwipeImagesOldButtonNumberId = 1;
         innerImagesContainer.style.transform = 'translateX(0%)';
@@ -1349,14 +1293,14 @@ setInterval(() => {
 
 
     storeSlideImageButton.forEach(i => {
-        if( Number((i.id).replace(/\D/g, "")) == storeSwipeImagesOldButtonNumberId ){
+        if (Number((i.id).replace(/\D/g, "")) == storeSwipeImagesOldButtonNumberId) {
             i.className = 'checked';
         }
         else {
             i.className = 'unchecked';
         }
-    });    
-}, autoScrollStoreImage); 
+    });
+}, autoScrollStoreImage);
 
 
 
@@ -1386,39 +1330,24 @@ expandAboutUsButton.addEventListener('click', () => {
 
 
 
+/**
+ * The variable totalDiscountAmount will contains all the discounts values out of the total value
+ *      2.6 + 4.6  etc.
+ * 
+*/
 
+function productAmountDiscount(buttonNumberId, amount) {
+    let cartProductTotalPrice = document.querySelector(`#cartProductTotalPrice${buttonNumberId}`);
+    let checkoutCartProductTotalPrice = document.querySelector(`#checkoutCartProductTotalPrice${buttonNumberId}`);
 
-setInterval(() => {
-    // console.log(today, mm + '/' + dd + '/' + yyyy + '|' + hours + ':' + minutes + ':' + seconds)
-    // console.log(dayOfWeek);
-}, 1*1000);
+    if (amount >= 10) {
+        const discountFinalCost = Number(((amount * cartObject[buttonNumberId].price) * 0.9).toFixed(0));
 
-// dayRules();
-
-function dayRules() {
-    const subTotal = [
-        document.querySelector('#cartSubTotal'),
-        document.querySelector('#checkoutSubTotal')
-    ]
-    let checkoutDiscountPrice = document.querySelector('#checkoutDiscountPrice');
-    
-    
-    if(dayOfWeek === 'Monday' && hours < 10) {
-        checkoutDiscountPrice.textContent = `Discount: -${totalPrice * 0.1} kr`;
-        totalPrice = (totalPrice * 0.9).toFixed(0);
+        cartProductTotalPrice.textContent = `${discountFinalCost.toFixed(0)} kr`;
+        checkoutCartProductTotalPrice.textContent = `${discountFinalCost.toFixed(0)} kr`;
     }
     else {
-
+        cartProductTotalPrice.textContent = `${amount * cartObject[buttonNumberId].price} kr`;
+        checkoutCartProductTotalPrice.textContent = `${amount * cartObject[buttonNumberId].price} kr`;
     }
-}
-
-
-function increasePriceRule() {
-    // if(dayOfWeek === 'Friday' && hours >= 15 || dayOfWeek === 'Sunday' || dayOfWeek === 'Saturday' || dayOfWeek === 'Monday' && hours <= 3) {
-    //     productsObject.donuts.forEach(e => {
-    //         let donutPrice = e.price;
-
-    //         e.price = (donutPrice * 1.15).toFixed(0);
-    //     });
-    // } 
 }

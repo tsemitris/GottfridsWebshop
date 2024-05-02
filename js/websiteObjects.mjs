@@ -689,7 +689,7 @@ const websiteObjects = [
                                         imageUrl: 'assets/products/donuts/original_size_images/sunset_striped_delights_two_unsplash.jpg',
                                         imageWidth: '4016',
                                     },
-                                ],    
+                                ],
                             },
                         ],
                         imagePosition: 1,
@@ -752,7 +752,7 @@ const websiteObjects = [
                                         imageUrl: 'assets/products/donuts/original_size_images/pink_blush_ring_delight_two_unsplash.jpg',
                                         imageWidth: '4000',
                                     },
-                                ],    
+                                ],
                             },
                         ],
                         imagePosition: 1,
@@ -794,7 +794,7 @@ const websiteObjects = [
                         imagePosition: 1,
                     },
                 ],
-                
+
             },
         ],
         paymentMethodsObject: [
@@ -809,7 +809,7 @@ const websiteObjects = [
                 imageUrl: '../assets/icons/invoice.svg',
             },
         ],
-        
+
     },
 ];
 
