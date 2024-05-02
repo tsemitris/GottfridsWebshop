@@ -1,6 +1,7 @@
 
 // Imports
 import { websiteObjects, cartObject } from "./js/websiteObjects.mjs";
+import printCategories from "./src/script/header/categories.mjs";
 import printHeaderOptions from "./src/script/header/options.mjs";
 
 
@@ -12,9 +13,6 @@ import printHeaderOptions from "./src/script/header/options.mjs";
  * 
 */
 
-// ----------------------------------------------------------[ Options ]---[ 1 ]
-const optionsHeader = document.querySelector('#optionsHeader');
-const menuOptions = websiteObjects[0].menuOptionsObject;
 
 // -------------------------------------------------------[ Categories ]---[ 1 ]
 const categoriesList = document.querySelector('#categoriesList');
@@ -91,18 +89,6 @@ document.addEventListener('scroll', () => {
         headerElement.classList.add('hidden');
     }
 
-    // Categories div
-    let endMenuPosition = 445 - categoriesList.offsetHeight;
-    if (windowScrollPosition <= endMenuPosition) {
-        categoriesList.style.transform = `
-            translateY(${windowScrollPosition}px)
-        `;
-    }
-    else if (windowScrollPosition >= endMenuPosition) {
-        categoriesList.style.transform = `
-            translateY(${endMenuPosition}px)
-        `;
-    }
 });
 
 
@@ -116,22 +102,7 @@ document.addEventListener('scroll', () => {
 */
 
 printHeaderOptions();
-
-
-/** -------------------------------------------------------[ Categories ]---[ 2 ]
- * 
- *  For each item in the categoriesObject
- *      In categoriesList
- *          + add button
- *              + add class category_button
- *              + add context category name
- * 
-*/
-categoriesObject.forEach(i => {
-    categoriesList.innerHTML += `
-        <button class="category_button">${i.name}</button>
-    `;
-});
+printCategories();
 
 
 /** -----------------------------------------------------[ Swipe images ]---[ 2 ]
@@ -160,34 +131,34 @@ categoriesObject.forEach(i => {
  * 
 */
 // Image(s)
-storeImagesObject.forEach(i => {
-    innerImagesContainer.innerHTML += `
-    <div 
-        class="slide_image" 
-        style=" width: ${(100 / storeImagesObject.length)}%; background-image: url(${i.imageUrl});"
-    >
-    </div>`;
-    innerImagesContainer.style.width = `${(storeImagesObject.length * 100)}%`;
-});
+// storeImagesObject.forEach(i => {
+//     innerImagesContainer.innerHTML += `
+//     <div 
+//         class="slide_image" 
+//         style=" width: ${(100 / storeImagesObject.length)}%; background-image: url(${i.imageUrl});"
+//     >
+//     </div>`;
+//     innerImagesContainer.style.width = `${(storeImagesObject.length * 100)}%`;
+// });
 
 // Button(s)
-storeImagesObject.forEach(i => {
-    if (sliderButtonNumber == 1) {
-        sliderButtonsContainer.innerHTML += `
-        <button class="checked" id="sliderButton${sliderButtonNumber}">
-            Slide image button ${sliderButtonNumber}
-        </button>
-        `;
-    }
-    else {
-        sliderButtonsContainer.innerHTML += `
-        <button class="unchecked" id="sliderButton${sliderButtonNumber}">
-            Slide image button ${sliderButtonNumber}
-        </button>
-        `;
-    }
-    sliderButtonNumber++;
-});
+// storeImagesObject.forEach(i => {
+//     if (sliderButtonNumber == 1) {
+//         sliderButtonsContainer.innerHTML += `
+//         <button class="checked" id="sliderButton${sliderButtonNumber}">
+//             Slide image button ${sliderButtonNumber}
+//         </button>
+//         `;
+//     }
+//     else {
+//         sliderButtonsContainer.innerHTML += `
+//         <button class="unchecked" id="sliderButton${sliderButtonNumber}">
+//             Slide image button ${sliderButtonNumber}
+//         </button>
+//         `;
+//     }
+//     sliderButtonNumber++;
+// });
 
 
 /** ---------------------------------------------[ Categories Container ]---[ 2 ]
