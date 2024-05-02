@@ -3,9 +3,13 @@ import { websiteObjects } from "../../../js/websiteObjects.mjs";
 const categoriesList = document.querySelector('#categoriesList');
 const categoriesObject = websiteObjects[0].categoriesObject;
 
+let windowScrollPosition = 0;
+
 export default function printCategories() {
 
     document.addEventListener('scroll', () => {
+        windowScrollPosition = window.scrollY;
+
         let endMenuPosition = 445 - categoriesList.offsetHeight;
         if (windowScrollPosition <= endMenuPosition) {
             categoriesList.style.transform = `

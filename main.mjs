@@ -3,6 +3,7 @@
 import { websiteObjects, cartObject } from "./js/websiteObjects.mjs";
 import printCategories from "./src/script/header/categories.mjs";
 import printHeaderOptions from "./src/script/header/options.mjs";
+import printScrollImage from "./src/script/scroll-image/printImage.mjs";
 
 
 
@@ -24,15 +25,6 @@ const productsObject = websiteObjects[0].productsObject[0];
 
 // --------------------------------------------------[ Category Donuts ]---[ 1 ]
 let productDonutCurrentCountSize = 0;
-
-
-// -----------------------------------------------------[ Swipe images ]---[ 1 ]
-const storeImagesObject = websiteObjects[0].storeImagesObject;
-
-const sliderButtonsContainer = document.querySelector('#sliderButtonsContainer');
-let sliderButtonNumber = 1;
-
-const innerImagesContainer = document.querySelector('#innerImagesContainer');
 
 // -------------------------------------------------------------------[ Amount ]
 let totalDiscountAmount = 0;
@@ -102,63 +94,9 @@ document.addEventListener('scroll', () => {
 */
 
 printHeaderOptions();
+
 printCategories();
-
-
-/** -----------------------------------------------------[ Swipe images ]---[ 2 ]
- *
- *  Image(s)
- * 
- *  For each item in the storeImagesObject
- *      + add a new div inside innerImagesContainer
- *          + add the class "Slide_image"
- *          + add style
- *      + change the width of innerImagesContainer depending of storeImagesObject lenght
- * 
- *  Button(s)
- * 
- *  For each item in the storeImagesObject
- *      If sliderButtonNumber is 1 then
- *          + add a button
- *              + add class "checked"
- *              + add id
- *              + add context
- *      If sliderButtonNumber is not 1 then
- *          + add a button
- *              + add class "unchecked"
- *              + add id
- *              + add context
- * 
-*/
-// Image(s)
-// storeImagesObject.forEach(i => {
-//     innerImagesContainer.innerHTML += `
-//     <div 
-//         class="slide_image" 
-//         style=" width: ${(100 / storeImagesObject.length)}%; background-image: url(${i.imageUrl});"
-//     >
-//     </div>`;
-//     innerImagesContainer.style.width = `${(storeImagesObject.length * 100)}%`;
-// });
-
-// Button(s)
-// storeImagesObject.forEach(i => {
-//     if (sliderButtonNumber == 1) {
-//         sliderButtonsContainer.innerHTML += `
-//         <button class="checked" id="sliderButton${sliderButtonNumber}">
-//             Slide image button ${sliderButtonNumber}
-//         </button>
-//         `;
-//     }
-//     else {
-//         sliderButtonsContainer.innerHTML += `
-//         <button class="unchecked" id="sliderButton${sliderButtonNumber}">
-//             Slide image button ${sliderButtonNumber}
-//         </button>
-//         `;
-//     }
-//     sliderButtonNumber++;
-// });
+printScrollImage();
 
 
 /** ---------------------------------------------[ Categories Container ]---[ 2 ]
@@ -1156,122 +1094,6 @@ function invoicePaymentContent() {
     }
 }
 
-
-
-
-
-
-
-/**
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * +-+-+-+-+-+-+-+-+- SWIPE STORE IMAGES WITH BUTTONS -+-+-+-+-+-+-+-+-+-+-+-+-+
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * 
- * 1. When the user click in slide image button then the event will be triggered
- * 2. The function will check which button has been clicked and change the 
- *    transform: translateX from inner_images_container
-*/
-
-const storeSlideImageButton = document.querySelectorAll('.slider_buttons_container button');
-let storeSwipeImagesOldButtonNumberId = 1;
-let swipeStoreImageXposition = 0;
-let increaseDecreaseStoreImageValue = Number((100 / storeImagesObject.length));
-
-let autoScrollStoreImage = 5 * 1000;
-
-/** ----------------------------------------------[ Swipe between image ]---[ 3 ]
- *  
- *  For each storeSlideImageButton
- *      + add a eventListener who trigger with click
- *          on click
- *              + run swipeImage function
- *        
- * 
- *  If any button in storeSlideImageButton has been clicked then
- *      If buttonNumberId is 1
- *          If buttonNumberId and storeSwipeImagesOldButtonNumberId is alike then
- *                  - return
- *              Otherwise set
- *                  + change swipeStoreImageXposition to 0
- *                  + change the Xposition from innerImagesContainer to 0%
- *                  + toggle the toggleCheckUncheck
- *          If buttonNumberId is bigger than storeSwipeImagesOldButtonNumberId or 
- *          less than storeSwipeImagesOldButtonNumberId
- *              + change the Xposition from innerImagesContainer
- *              + toggle the toggleCheckUncheck
- *          In the end
- *              + change storeSwipeImagesOldButtonNumberId to the new buttonNumberId
- * 
- *  Auto Scroll
- *      Check the image position
- *          If the old position is not same as the lenght of button 
- *              + change to next picture
- *          If the old position is same as the lenght of button
- *              + set the old position to 1
- *              + change to the first image
- *
- *      For each button
- *          If button id is the same as old position
- *              + add class "checked"
- *          If button id is not the same as old position
- *              + add class "unchecked" 
- *  
-*/
-storeSlideImageButton.forEach(i => {
-    i.addEventListener('click', swipeImage);
-});
-
-function swipeImage(e) {
-    let buttonId = e.target.id;
-    let buttonNumberId = Number((buttonId).replace(/\D/g, ""));
-
-    function toggleCheckUncheck() {
-        e.target.className = 'checked';
-
-        storeSlideImageButton.forEach(i => {
-            if (i.id !== buttonId) {
-                i.className = 'unchecked';
-            }
-        });
-    }
-
-    if (buttonNumberId == 1) {
-        if (buttonNumberId == storeSwipeImagesOldButtonNumberId) return;
-        swipeStoreImageXposition = 0;
-        innerImagesContainer.style.transform = 'translateX(0%)';
-        toggleCheckUncheck();
-    }
-    else if (buttonNumberId > storeSwipeImagesOldButtonNumberId || buttonNumberId < storeSwipeImagesOldButtonNumberId) {
-        innerImagesContainer.style.transform = `
-            translateX(-${(buttonNumberId - 1) * increaseDecreaseStoreImageValue}%)
-        `;
-        toggleCheckUncheck();
-    }
-    storeSwipeImagesOldButtonNumberId = buttonNumberId;
-}
-
-setInterval(() => {
-    if (storeSwipeImagesOldButtonNumberId !== storeImagesObject.length) {
-        innerImagesContainer.style.transform = `
-            translateX(-${(storeSwipeImagesOldButtonNumberId) * increaseDecreaseStoreImageValue}%)
-        `;
-        storeSwipeImagesOldButtonNumberId += 1;
-    }
-    else {
-        storeSwipeImagesOldButtonNumberId = 1;
-        innerImagesContainer.style.transform = 'translateX(0%)';
-    }
-
-
-    storeSlideImageButton.forEach(i => {
-        if (Number((i.id).replace(/\D/g, "")) == storeSwipeImagesOldButtonNumberId) {
-            i.className = 'checked';
-        }
-        else {
-            i.className = 'unchecked';
-        }
-    });
-}, autoScrollStoreImage);
 
 
 
