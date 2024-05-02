@@ -15,10 +15,16 @@
     medieinstitutet</a>!
 </p>
 
+## 🔧 Repository Status
+
+![HTML5](https://img.shields.io/badge/Status-Editing-yellow?style=for-the-badge)
+
+This repository is currently undergoing editing and may not be in its final state. Please check back later for updates.
+
 ## 📖 About the project
 
 <p style="text-align: justify;">
-The objective of this particular assignment was about creating a responsible website, and with the help of JavaScript being able to complete a "purchase". 
+The objective of this particular assignment was about creating a responsible website, and with the help of JavaScript being able to complete a "purchase".
 
 </p>
 
@@ -33,6 +39,7 @@ The objective of this particular assignment was about creating a responsible web
 </details>
 
 ## 🗂️ Learning objectives & assessment
+
 <ul>
     <li>Logic & program flow</li>
     <li>Comments and self-documenting code</li>
@@ -76,6 +83,7 @@ The objective of this particular assignment was about creating a responsible web
 </p>
 
 ## 👨‍💼 Author
+
 <p 
     style=
     "
